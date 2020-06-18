@@ -48,7 +48,7 @@ make docker-run-jupyter
 ### Makefile variables
 You can ooveride the deafutl values of different componets of the 
 docker build or run options using makefile variables from command line.
-See makefile for details, here are some examples:
+See `config.mk` for details, here are some examples:
 * DATA: path to data
 * TF_PACKAGE_VERSION: Tensorflow version
 * TORCH_VERSION: Pytorch version
