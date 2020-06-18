@@ -1,13 +1,14 @@
 # Object-detection
 Dockerized workspace for 2D/3D object detection, segmentation, tracking, anything related to perception.
 
-Framework: Both Tensorflow and Pytorch supported.
 
-Libs: Fastai, tensorflow models, second.pytorch and detectron2 also included
+**Framework**: Both Tensorflow and Pytorch supported.  
 
-Data: Most experiments would be done on public datasets like Kitti, and sometimes smaller data like Pets for quick iteration.
+**Libs**: Fastai, tensorflow models, second.pytorch and detectron2 also included  
 
-Environment variables for easy access to different paths:
+**Data**: Most experiments would be done on public datasets like Kitti, and sometimes smaller data like Pets for quick iteration.  
+
+**Environment variables** for easy access to different paths:
 * TF_OBJECT_DETECTION_API
 * SECOND_API
 
