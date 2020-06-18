@@ -8,25 +8,66 @@ ARG TERM=xterm
 ARG LANG=en_US.UTF-8
 ARG LC_ALL=C.UTF-8
 
+
 # ==================================================================
 # Common tools
 # ------------------------------------------------------------------
 RUN apt-get update && apt-get install -y \
+  bash-completion \
+  build-essential \
+  byobu \
   curl \
+  dtrx \
   git \
   htop \
+  iputils-ping \
   nano \
   software-properties-common \
   sudo \
-  terminator \
   tmux \
   tree \
   unzip \
   vim \
   wget  \
   && rm -rf /var/lib/apt/lists/* 
-
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+# --------------
+# Nvidia opengl
+# --------------
+
+RUN dpkg --add-architecture i386 && \
+  apt-get update && apt-get install -y --no-install-recommends \
+  libglvnd0 libglvnd0:i386 \
+  libgl1 libgl1:i386 \
+  libglx0 libglx0:i386 \
+  libegl1 libegl1:i386 \
+  libgles2 libgles2:i386 \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN printf '{\n    "file_format_version" : "1.0.0",\n\
+    "ICD" : {\n        "library_path" : "libEGL_nvidia.so.0"\n    }\n}' \
+    >> /usr/share/glvnd/egl_vendor.d/10_nvidia.json
+
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES \
+        ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+        ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics,compat32,utility
+
+# --------------
+# GUI tools
+# --------------
+RUN apt-get update && apt-get install -y \
+  dbus-x11 \
+  mesa-utils \
+  terminator  \
+  x11-apps \
+  && rm -rf /var/lib/apt/lists/* 
+
+# Some QT-Apps
+ENV QT_X11_NO_MITSHM=1
+
 
 # ==================================================================
 # Common Python tools/libs
@@ -40,15 +81,20 @@ RUN python3 -m pip --no-cache-dir install --upgrade \
     pip \
     setuptools
 
+RUN python3 -m pip install --no-cache-dir Cython
+
 RUN python3 -m pip install --no-cache-dir \
   absl-py \
-  jupyterlab \
-  matplotlib \
-  numpy \
-  opencv-python \
-  pandas \
+  sklearn \
+  scipy \
+  scikit-image \
   pillow \
-  sklearn
+  pandas \
+  opencv-python \
+  numpy \
+  matplotlib \
+  jupyterlab \
+  ipywidgets
 
 
 # ==================================================================
@@ -91,14 +137,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # --------------
 # pip based
 # --------------
-RUN python3 -m pip install --no-cache-dir Cython numpy scipy matplotlib pillow scikit-image numba && \
-    python3 -m pip install --no-cache-dir shapely fire pybind11 tensorboardX seaborn psutil && \
-    python3 -m pip install --no-cache-dir contextlib2 tf_slim && \
-    python3 -m pip install --no-cache-dir pycocotools  nuscenes-devkit
+RUN python3 -m pip install --no-cache-dir numba shapely fire pybind11 seaborn psutil && \
+    python3 -m pip install --no-cache-dir tensorboardX contextlib2 tf_slim lxml && \
+    python3 -m pip install --no-cache-dir pycocotools nuscenes-devkit
 
 ENV NUMBAPRO_CUDA_DRIVER=/usr/lib/x86_64-linux-gnu/libcuda.so
 ENV NUMBAPRO_NVVM=/usr/local/cuda/nvvm/lib64/libnvvm.so
 ENV NUMBAPRO_LIBDEVICE=/usr/local/cuda/nvvm/libdevice   
+
 
 # ==================================================================
 # Tensorflow
@@ -106,6 +152,7 @@ ENV NUMBAPRO_LIBDEVICE=/usr/local/cuda/nvvm/libdevice
 ARG TF_PACKAGE=tensorflow
 ARG TF_PACKAGE_VERSION=
 RUN python3 -m pip install --no-cache-dir ${TF_PACKAGE}${TF_PACKAGE_VERSION:+==${TF_PACKAGE_VERSION}}
+
 
 # ==================================================================
 # Tensorflow Models
@@ -123,6 +170,7 @@ RUN cd /tensorflow/models/research && \
 ENV PYTHONPATH $PYTHONPATH:/tensorflow/models/research:/tensorflow/models/research/slim
 ENV TF_OBJECT_DETECTION_API /tensorflow/models/research/object_detection
 
+
 # ==================================================================
 # pytorch
 # ------------------------------------------------------------------
@@ -138,7 +186,7 @@ RUN python3 -m pip install --no-cache-dir \
 # Fastai
 # --------------
 RUN python3 -m pip install --no-cache-dir \
-  fastai ipywidgets
+  fastai
 
 # --------------
 # apex
@@ -149,6 +197,7 @@ RUN git clone https://github.com/NVIDIA/apex.git \
  && python setup.py install --cuda_ext --cpp_ext
 
 WORKDIR /opt
+
 
 # ==================================================================
 # second.pytorch
@@ -165,6 +214,7 @@ RUN PROBLEM_FILE=/usr/local/lib/python3.6/dist-packages/torch/share/cmake/Caffe2
 RUN git clone https://github.com/traveller59/second.pytorch.git --depth 10
 ENV PYTHONPATH=/opt/second.pytorch:${PYTHONPATH}
 ENV SECOND_API=/opt/second.pytorch/second
+
 
 # ==================================================================
 # detectron2
@@ -183,6 +233,7 @@ RUN python3 -m pip install -e detectron2_repo
 ENV CUDA_HOME=/usr/local/cuda
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64
 ENV PATH=$PATH:/usr/local/cuda/bin
+
 
 WORKDIR /home
 EXPOSE 8888
