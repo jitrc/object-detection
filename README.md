@@ -12,6 +12,11 @@ Dockerized workspace for 2D/3D object detection, segmentation, tracking, anythin
 * TF_OBJECT_DETECTION_API
 * SECOND_API
 
+**Included Notbooks/Scripts**
+* [Tensorflow Object Detection](workspace/tensorflow)
+   * [Pets](workspace/tensorflow/Pets)
+   * [Kitti](workspace/tensorflow/kitti)
+
 ## Docker
 
 ### Setup
