@@ -141,10 +141,6 @@ RUN python3 -m pip install --no-cache-dir numba shapely fire pybind11 seaborn ps
     python3 -m pip install --no-cache-dir tensorboardX contextlib2 tf_slim lxml && \
     python3 -m pip install --no-cache-dir pycocotools nuscenes-devkit
 
-ENV NUMBAPRO_CUDA_DRIVER=/usr/lib/x86_64-linux-gnu/libcuda.so
-ENV NUMBAPRO_NVVM=/usr/local/cuda/nvvm/lib64/libnvvm.so
-ENV NUMBAPRO_LIBDEVICE=/usr/local/cuda/nvvm/libdevice   
-
 
 # ==================================================================
 # Tensorflow
@@ -215,6 +211,10 @@ RUN git clone https://github.com/traveller59/second.pytorch.git --depth 10
 ENV PYTHONPATH=/opt/second.pytorch:${PYTHONPATH}
 ENV SECOND_API=/opt/second.pytorch/second
 
+# --------------
+# Dep for Kitti Viewer Web
+# --------------
+RUN python3 -m pip install --no-cache-dir Flask Flask-cors
 
 # ==================================================================
 # detectron2
