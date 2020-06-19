@@ -1,5 +1,4 @@
-# Object-detection
-Dockerized workspace for 2D/3D object detection, segmentation, tracking, anything related to perception.
+# Object-detection: Dockerized workspace for 2D/3D object detection, segmentation, tracking, anything related to perception.
 
 
 **Framework**: Both Tensorflow and Pytorch supported.  
