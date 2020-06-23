@@ -15,6 +15,7 @@
 * [Tensorflow Object Detection](workspace/tensorflow)
    * [Pets](workspace/tensorflow/Pets)
    * [Kitti](workspace/tensorflow/kitti)
+* [Fast.ai examples from course](workspace/fastai)
 
 ## Docker
 
