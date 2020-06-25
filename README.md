@@ -1,5 +1,6 @@
-# Object-detection: Dockerized workspace for 2D/3D object detection, segmentation, tracking, anything related to perception.
-
+# Dockerized workspace for 2D/3D object detection.
+Anything related to Robotics and Autonomous Vehicle Perception using Deep Learning.  
+May include classification, detection, segmentation, tracking, pose estimation.
 
 **Framework**: Both Tensorflow and Pytorch supported.  
 
@@ -11,7 +12,7 @@
 * TF_OBJECT_DETECTION_API
 * SECOND_API
 
-**Included Notbooks/Scripts**
+**Included Notebooks/Scripts**
 * [Tensorflow Object Detection](workspace/tensorflow)
    * [Pets](workspace/tensorflow/Pets)
    * [Kitti](workspace/tensorflow/kitti)
@@ -53,8 +54,8 @@ Jupyter Lab in docker
 make docker-run-jupyter
 ```
 ### Makefile variables
-You can ooveride the deafutl values of different componets of the 
-docker build or run options using makefile variables from command line.
+You can override the default values of different components of the 
+docker build or run options using makefile variables from the command line.
 See `config.mk` for details, here are some examples:
 * DATA: path to data
 * TF_PACKAGE_VERSION: Tensorflow version
