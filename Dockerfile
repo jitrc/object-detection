@@ -131,7 +131,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libboost-all-dev \
       libjpeg-dev \
       libpng-dev  \
-      python-tk \
+      python3-tk \
       && rm -rf /var/lib/apt/lists/* 
 
 # --------------
