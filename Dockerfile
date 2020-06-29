@@ -207,7 +207,7 @@ RUN PROBLEM_FILE=/usr/local/lib/python3.6/dist-packages/torch/share/cmake/Caffe2
     cd ./spconv && \
     SPCONV_FORCE_BUILD_CUDA=1 python setup.py install
 
-RUN git clone https://github.com/jitrc/second.pytorch.git -b quick_fix --depth 10
+RUN git clone https://github.com/jitrc/second.pytorch.git -b local_v1.0 --depth 10
 ENV PYTHONPATH=/opt/second.pytorch:${PYTHONPATH}
 ENV SECOND_API=/opt/second.pytorch/second
 
