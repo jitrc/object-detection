@@ -1,7 +1,7 @@
 
 .PHONY: all clean docker-build 
 
-all: clean
+all: docker-run-jupyter
 
 clean:
 	find . -name "*.pyc" | xargs rm -f && \
@@ -15,6 +15,7 @@ docker-build:
 		--build-arg TF_MODEL_BRANCH=${TF_MODEL_BRANCH} \
 		--build-arg TORCH_VERSION=${TORCH_VERSION} \
 		--build-arg TORCHVISION_VERSION=${TORCHVISION_VERSION} \
+		--build-arg FASTAI_VERSION=${FASTAI_VERSION} \
 		-t ${DOCKER_IMAGE} .
 
 docker-run-bash: docker-build

@@ -11,6 +11,8 @@ TF_MODEL_BRANCH ?= r1.13.0  # https://github.com/tensorflow/models/tags
 TORCH_VERSION ?= 1.4.0+cu100	#1.3.1+cu100, 1.4.0+cu100, 1.5.0+cu101 #https://download.pytorch.org/whl/torch_stable.html
 TORCHVISION_VERSION ?= 0.5.0+cu100 	#0.4.2+cu100, 0.5.0+cu100, 0.6.0+cu101
 
+FASTAI_VERSION ?= 1.0.61
+
 DOCKER_TAG_TF = $(strip ${TF_PACKAGE}-${TF_PACKAGE_VERSION})
 DOCKER_TAG_PT = $(strip pytorch-$(shell echo ${TORCH_VERSION} | cut -c1-5))
 DOCKER_TAG_CU = $(strip cuda-$(shell echo ${DOCKER_BASE_TAG} | cut -c1-4))

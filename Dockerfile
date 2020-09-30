@@ -173,7 +173,7 @@ ENV TF_OBJECT_DETECTION_API /tensorflow/models/research/object_detection
 ARG TORCH_VERSION=
 ARG TORCHVISION_VERSION=
 RUN python3 -m pip install --no-cache-dir \
-   torch${TORCH_VERSION:+==${TORCH_VERSION}}  \
+   torch${TORCH_VERSION:+==${TORCH_VERSION}} \
    torchvision${TORCHVISION_VERSION:+==${TORCHVISION_VERSION}} \
    -f https://download.pytorch.org/whl/torch_stable.html
 
@@ -181,8 +181,9 @@ RUN python3 -m pip install --no-cache-dir \
 # --------------
 # Fastai
 # --------------
+ARG FASTAI_VERSION=
 RUN python3 -m pip install --no-cache-dir \
-  fastai
+  fastai${FASTAI_VERSION:+==${FASTAI_VERSION}}
 
 # --------------
 # apex
